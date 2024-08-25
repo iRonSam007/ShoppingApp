@@ -1,4 +1,4 @@
-package com.example.shoppinglist_app
+package com.example.shoppinglist_app.ui.shoppinglist
 
 import android.os.Bundle
 import android.util.Log
@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.shoppinglist_app.R
 
 class ShoppingActivity : AppCompatActivity() {
 
