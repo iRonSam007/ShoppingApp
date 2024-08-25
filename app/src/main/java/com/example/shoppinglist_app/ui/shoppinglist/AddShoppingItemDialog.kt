@@ -17,13 +17,20 @@ class AddShoppingItemDialog(context: Context, var addDialogListener: AddDialogLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+
         setContentView(R.layout.dialog_add_shopping_item)
 
+        //This can be replaced with right import SFI //1- Kotlin sysnthetic view binding(deprecated) //ViewBinding add:
+        // viewBinding {
+        //        enabled = true
+        //    } in gradle and then use:
         val tvAdd = findViewById<TextView>(R.id.tvAdd)
         val tvCancel = findViewById<TextView>(R.id.tvCancel)
         val etName = findViewById<TextView>(R.id.etName)
         val etAmount = findViewById<TextView>(R.id.etAmount)
+
         tvAdd?.setOnClickListener {
             val name = etName?.text.toString()
             val amount = etAmount?.text.toString().toInt()

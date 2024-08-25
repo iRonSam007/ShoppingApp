@@ -6,11 +6,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist_app.R
 import com.example.shoppinglist_app.data.db.ShoppingDatabase
 import com.example.shoppinglist_app.data.repositories.ShoppingRepository
+import com.example.shoppinglist_app.other.ShoppingItemRecyclerViewAdapter
 
 
 class ShoppingActivity : AppCompatActivity() {
@@ -33,17 +38,28 @@ class ShoppingActivity : AppCompatActivity() {
             insets
         }
 
-        /*
-        //Instantiate every think u need: this a bad habits, cz it makes database access dependent on this activity lifecycle
-        //The professional practice is dependency injection ...
-        val database = ShoppingDatabase(this)
-        val repository = ShoppingRepository(database)
-        val vmFactory = ShoppingViewModelFactory(repository)
-        //Usually this will instanciate a viewModel from file ... using viewModel factory instance.... but this is deprecated
-        //val viewModel = ViewModelProvider.of(this, vmFactory).get(ShoppingViewModel::class.java)
-        val viewModel = ViewModelProvider(this, vmFactory).get(ShoppingViewModel::class.java)
-        //NB: ViewModelProviders.of is deprecated, now we use CustomeViewModel by viewModels(){}
-        */
+
+        val adapter = ShoppingItemRecyclerViewAdapter(listOf(), myViewModel)
+        val rvShoppingItems = findViewById<RecyclerView>(R.id.rv_shopping_items)
+        val fab = findViewById<RecyclerView>(R.id.fab)
+
+        rvShoppingItems.layoutManager = LinearLayoutManager(this)
+        rvShoppingItems.adapter = adapter
+
+        myViewModel.getAllShoppingItems().observe(this, Observer { //Deprecated
+            adapter.items = it
+            adapter.notifyDataSetChanged()
+        })
+
+        fab.setOnClickListener {
+            AddShoppingItemDialog(
+                this,
+                object : AddDialogListener {
+                    override fun onAddButtonClicked(item: ShoppingItem) {
+                        myViewModel.insert(item)
+                    }
+                }).show()
+        }
 
 
     }
