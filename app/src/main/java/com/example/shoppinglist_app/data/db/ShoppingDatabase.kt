@@ -17,25 +17,23 @@ abstract class ShoppingDatabase: RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: ShoppingDatabase? = null
-        private val lock = Any()
 
-        /*
         //Singleton pattern Implem 1: make sure only one instance exist at a time: volatile + synchronized
-        private fun createDatabase(context: Context): ShoppingDatabase{
+        fun getDatabase(context: Context): ShoppingDatabase{
             return INSTANCE ?: synchronized(this){
                 var instance = Room.databaseBuilder( context.applicationContext, ShoppingDatabase::class.java, "Shopping_database.db").build()
                 INSTANCE = instance
                 instance
             }
         }
-        */
-
+        /*
+        private val lock = Any()
         //Singleton pattern Implem 2: I'll use invoke()
         private fun createDatabase(context: Context) = Room.databaseBuilder(context.applicationContext, ShoppingDatabase::class.java, "Shopping_database.db").build()
         operator fun invoke(context: Context) = INSTANCE ?:synchronized(lock){
             INSTANCE ?: createDatabase(context).also { INSTANCE = it}
         }
-
+        */
     }
 
 
